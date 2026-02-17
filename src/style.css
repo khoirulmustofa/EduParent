@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  /* Definisikan warna custom di sini */
+  --color-campus-green: oklch(44.8% 0.119 151.328);
+}
