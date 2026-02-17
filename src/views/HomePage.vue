@@ -5,7 +5,7 @@
             <div class="fixed inset-0 bg-gradient-to-br from-blue-200 via-white to-cyan-100 pointer-events-none z-0">
             </div>
 
-            <div class="relative z-10 p-5">
+            <div class="relative z-10 p-5 pb-25">
 
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-4">

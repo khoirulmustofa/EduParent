@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <div class="relative z-10 px-6 pb-24">
+            <div class="relative z-10 px-6 pb-25">
 
                 <div class="flex flex-col items-center mb-8">
                     <div class="relative mb-4">
