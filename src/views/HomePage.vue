@@ -27,7 +27,7 @@
                 </div>
 
                 <div
-                    class="bg-gradient-to-br from-cyan-600 to-blue-600 rounded-[2rem] p-6 text-white shadow-xl shadow-purple-200 mb-4 relative overflow-hidden">
+                    class="bg-gradient-to-br from-cyan-600 to-blue-600 rounded-2xl p-6 text-white shadow-xl shadow-purple-200 mb-4 relative overflow-hidden">
                     <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
 
                     <div class="flex justify-between items-start mb-4">
@@ -261,18 +261,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonFooter, IonIcon } from '@ionic/vue';
+import { IonContent, IonIcon, IonPage } from '@ionic/vue';
 import {
-    notifications,
-    ellipsisHorizontal,
-    briefcase,
-    person,
     book,
-    add,
-    home,
-    calendar,
-    documentText,
-    people
+    briefcase,
+    ellipsisHorizontal,
+    notifications,
+    person
 } from 'ionicons/icons';
 </script>
 

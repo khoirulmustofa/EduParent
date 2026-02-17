@@ -44,7 +44,7 @@
                         </div>
                     </button>
 
-                     <button @click="goToLogin"
+                    <button @click="goToLogin"
                         class="group w-full !py-3 !bg-linear-to-r from-green-500 to-green-700 text-white !rounded-full shadow-xl shadow-green-200 flex items-center justify-center gap-3 transition-all duration-200 active:scale-95">
                         <span class="text-lg font-bold tracking-wide">Home</span>
                         <div class="bg-white/20 p-1 rounded-full group-hover:translate-x-1 transition-transform">
@@ -60,8 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonIcon, alertController, IonNav } from '@ionic/vue';
 import { Dialog } from '@capacitor/dialog';
+import { alertController, IonContent, IonIcon, IonPage } from '@ionic/vue';
 import { arrowForward } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 
@@ -115,7 +115,7 @@ const showConfirm = async () => {
 const router = useRouter();
 
 const goToLogin = () => {
-  router.replace('/login');
+    router.replace('/login');
 };
 
 

@@ -7,17 +7,17 @@
 
       <div class="relative z-10 px-5 py-5 flex justify-between items-center">
 
-        <div class="text-xl font-bold text-gray-800">Attendance</div>
+        <div class="text-xl font-bold text-gray-800">Menu</div>
         <button
           class="!bg-white/80 !backdrop-blur-md !p-2.5 !rounded-full shadow-sm text-gray-700 !border !border-gray-100 !active:scale-95 !transition-transform">
-          <ion-icon :icon="calendarOutline" class="text-xl"></ion-icon>
+          <ion-icon :icon="gridOutline" class="text-xl"></ion-icon>
         </button>
       </div>
 
       <div class="relative z-10 px-5 pb-24">
 
         <div class="mb-4">
-          <div class="text-gray-500 text-sm">Choose the type of attendance to record</div>
+          <div class="text-gray-500 text-sm">Choose the type of menu to record</div>
         </div>
 
         <div class="grid grid-cols-3 gap-3">
@@ -78,7 +78,7 @@ import { IonContent, IonIcon, IonPage } from '@ionic/vue';
 import {
   basketballOutline,
   calendarNumberOutline,
-  calendarOutline,
+  gridOutline,
   libraryOutline,
   schoolOutline
 } from 'ionicons/icons';

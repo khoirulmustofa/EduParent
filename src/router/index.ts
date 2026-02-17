@@ -41,9 +41,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/AttendancePage.vue'),
       },
       {
-        path: 'library',
-        name: 'Library',
-        component: () => import('../views/LibraryPage.vue'),
+        path: 'menu',
+        name: 'Menu',
+        component: () => import('../views/MenuPage.vue'),
       },
       {
         path: 'profile',

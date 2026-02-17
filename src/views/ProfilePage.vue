@@ -6,10 +6,7 @@
             </div>
 
             <div class="relative z-10 p-5 flex justify-between items-center">
-                <button
-                    class="!bg-white/80 !backdrop-blur-md !p-2.5 !rounded-full shadow-sm text-gray-700 !border !border-gray-100 !active:scale-95 !transition-transform">
-                    <ion-icon :icon="chevronBack" class="text-xl"></ion-icon>
-                </button>
+
                 <div class="text-xl font-bold text-gray-800">Profile</div>
                 <button
                     class="!bg-white/80 !backdrop-blur-md !p-2.5 !rounded-full shadow-sm text-gray-700 !border !border-gray-100 !active:scale-95 !transition-transform">
@@ -118,16 +115,15 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonIcon } from '@ionic/vue';
+import { IonContent, IonIcon, IonPage } from '@ionic/vue';
 import {
-    chevronBack,
-    settingsOutline,
     cameraOutline,
     chevronForward,
-    personOutline,
-    notificationsOutline,
-    shieldCheckmarkOutline,
     helpCircleOutline,
-    logOutOutline
+    logOutOutline,
+    notificationsOutline,
+    personOutline,
+    settingsOutline,
+    shieldCheckmarkOutline
 } from 'ionicons/icons';
 </script>

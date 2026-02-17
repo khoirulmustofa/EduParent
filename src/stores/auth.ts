@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
 import axios from 'axios';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
     // --- State ---
@@ -33,7 +33,8 @@ export const useAuthStore = defineStore('auth', () => {
 
             return true;
         } catch (error) {
-            throw error;
+            console.error('Login axios error:', error);
+            return false;
         }
     }
 
