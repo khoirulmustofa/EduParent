@@ -84,7 +84,7 @@ ion-label {
 }
 
 ion-tab-button.tab-selected ion-icon {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
   transition: transform 0.3s ease;
 }
 </style>
