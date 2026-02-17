@@ -14,13 +14,16 @@
   "dependencies": {
     "@capacitor/app": "8.0.1",
     "@capacitor/core": "8.1.0",
+    "@capacitor/dialog": "^8.0.1",
     "@capacitor/haptics": "8.0.0",
     "@capacitor/keyboard": "8.0.0",
     "@capacitor/status-bar": "8.0.1",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.5",
     "ionicons": "^7.0.0",
+    "pinia": "^3.0.4",
     "tailwindcss": "^4.1.18",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
