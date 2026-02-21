@@ -101,7 +101,7 @@
                             class="text-gray-300 group-hover:text-pink-500 transition-colors"></ion-icon>
                     </button>
 
-                    <button
+                    <button @click="handleLogoutConfirm"
                         class="w-full bg-red-50 !p-4 !rounded-2xl !border !border-red-100 flex items-center justify-center gap-2 group active:scale-[0.98] transition-all mt-6">
                         <ion-icon :icon="logOutOutline" class="text-red-500 text-xl"></ion-icon>
                         <span class="font-bold text-red-500 text-[15px]">Log Out</span>
@@ -115,7 +115,8 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonIcon, IonPage } from '@ionic/vue';
+import { useAuthStore } from '@/stores/authStore';
+import { alertController, IonContent, IonIcon, IonPage } from '@ionic/vue';
 import {
     cameraOutline,
     chevronForward,
@@ -126,4 +127,49 @@ import {
     settingsOutline,
     shieldCheckmarkOutline
 } from 'ionicons/icons';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const authStore = useAuthStore();
+
+
+
+
+const handleLogoutConfirm = async () => {
+    const alert = await alertController.create({
+        header: 'Konfirmasi',
+        message: 'Apakah Anda yakin ingin keluar?',
+        buttons: [
+            {
+                text: 'Batal',
+                role: 'cancel',
+                handler: () => {
+                    console.log('User klik batal');
+                },
+            },
+            {
+                text: 'Keluar',
+                role: 'confirm',
+                handler: () => {
+                    authStore.logout();
+                    router.push('/login');
+                },
+            },
+        ],
+    });
+
+    await alert.present();
+
+    // Menunggu alert ditutup
+    const { data, role } = await alert.onWillDismiss();
+
+    // Logika setelah alert hilang dari layar
+    if (role === 'confirm') {
+        console.log('Data diterima:', data);
+        // Jalankan fungsi hapus di sini
+    } else {
+        console.log('Alert ditutup tanpa konfirmasi');
+    }
+};
 </script>
