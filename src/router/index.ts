@@ -29,6 +29,19 @@ const routes: Array<RouteRecordRaw> = [
     path: '/attendance/kbm',
     name: 'KBM',
     component: () => import('../views/Attendance/KBMAttendancePage.vue'),
+    meta: { requiresAuth: true }
+  },
+   {
+    path: '/menu/callendar',
+    name: 'Callendar',
+    component: () => import('../views/Menu/CallendarPage.vue'),
+    meta: { requiresAuth: true }
+  },  
+  {
+    path: '/menu/lesson-schedule',
+    name: 'LessonSchedule',
+    component: () => import('../views/Menu/LessonSchedulePage.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/',

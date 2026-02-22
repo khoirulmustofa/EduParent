@@ -2,7 +2,19 @@
     <ion-page>
         <ion-content :fullscreen="true" class="bg-gray-50 font-sans">
 
-            <div class="fixed inset-0 bg-gradient-to-br from-blue-200 via-white to-cyan-100 pointer-events-none z-0">
+            <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+                <div
+                    class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-rose-100/40 rounded-full blur-[80px] animate-pulse">
+                </div>
+
+                <div class="absolute top-[10%] right-[-10%] w-80 h-80 bg-blue-100/40 rounded-full blur-[80px]"></div>
+
+                <div class="absolute bottom-[-10%] left-[10%] w-80 h-80 bg-emerald-100/40 rounded-full blur-[80px]">
+                </div>
+
+                <div
+                    class="absolute bottom-[20%] right-[10%] w-64 h-64 bg-fuchsia-100/40 rounded-full blur-[80px] animate-pulse">
+                </div>
             </div>
 
             <div class="relative z-10 p-5 flex justify-between items-center">

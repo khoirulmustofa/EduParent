@@ -2,8 +2,7 @@
     <ion-page>
         <ion-content :fullscreen="true" class="bg-gray-50 font-sans">
 
-            <div class="fixed inset-0 bg-gradient-to-br from-blue-200 via-white to-cyan-100 pointer-events-none z-0">
-            </div>
+            <BackgroundTheme />
 
             <div class="relative z-10 px-6 pt-8 pb-2">
                 <div class="flex justify-between items-center mb-6">
@@ -38,10 +37,16 @@
                 </div>
 
                 <div class="flex items-center justify-between mb-4">
-                    <div class="text-xl font-bold text-gray-900">Today's Sessions</div>
+                    <div>
+                        <div class="text-xl font-bold text-gray-900">
+                            {{ isToday ? "Today's" : "Class" }} Sessions
+                        </div>
+                        <div class="text-xs font-semibold text-gray-400 mt-0.5">{{ formattedDate }}</div>
+                    </div>
                     <span class="text-xs font-bold text-[#5F33E1] bg-purple-50 px-3 py-1 !rounded-full">5
                         Sessions</span>
                 </div>
+
             </div>
 
             <div class="relative z-10 px-6 pb-5 space-y-4">
@@ -160,78 +165,92 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonIcon } from '@ionic/vue';
-import { useRouter } from 'vue-router';
+import BackgroundTheme from '@/components/BackgroundTheme.vue';
+import { useIndonesianDate } from '@/composables/useIndonesianFormat';
+import { IonContent, IonIcon, IonPage } from '@ionic/vue';
 import {
-    chevronBack,
     calendarOutline,
-    timeOutline,
-    locationOutline
+    chevronBack,
+    locationOutline,
+    timeOutline
 } from 'ionicons/icons';
-import { nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+
 
 const router = useRouter();
 
 const selectedDate = ref(new Date());
-const weekDays = ref<any[]>([]);
 const scrollContainer = ref<HTMLElement | null>(null);
 
-const generateWeek = () => {
-  const days = [];
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+// Format date for display
+const selectedDateIso = computed(() => selectedDate.value.toISOString());
+const { formattedDate } = useIndonesianDate(selectedDateIso);
 
-  // 7 hari ke belakang, hari ini, 7 hari ke depan
-  for (let i = -7; i <= 7; i++) {
-    const date = new Date();
-    date.setDate(today.getDate() + i);
-    date.setHours(0, 0, 0, 0);
+const weekDays = computed(() => {
+    const days = [];
+    const baseDate = new Date(selectedDate.value);
+    baseDate.setHours(0, 0, 0, 0);
 
-    days.push({
-      id: date.getTime(),
-      name: date.toLocaleDateString('en-US', { weekday: 'short' }),
-      number: date.getDate(),
-      date: date
-    });
-  }
-  weekDays.value = days;
-};
+    // 7 days back, today, 7 days forward
+    for (let i = -7; i <= 7; i++) {
+        const date = new Date(baseDate);
+        date.setDate(baseDate.getDate() + i);
+        date.setHours(0, 0, 0, 0);
+
+        days.push({
+            id: date.getTime(),
+            name: date.toLocaleDateString('id-ID', { weekday: 'short' }),
+            number: date.getDate(),
+            date: date
+        });
+    }
+    return days;
+});
+
 
 const isSelected = (date: Date) => {
-  return date.toDateString() === selectedDate.value.toDateString();
+    return date.toDateString() === selectedDate.value.toDateString();
 };
 
 const centerActiveDate = (date: Date) => {
-  const dateId = date.setHours(0, 0, 0, 0);
-  const element = document.getElementById('date-' + dateId);
-  
-  if (element && scrollContainer.value) {
-    const container = scrollContainer.value;
-    const offset = element.offsetLeft - (container.clientWidth / 2) + (element.clientWidth / 2);
-    
-    container.scrollTo({
-      left: offset,
-      behavior: 'smooth'
-    });
-  }
+    const dateId = date.setHours(0, 0, 0, 0);
+    const element = document.getElementById('date-' + dateId);
+
+    if (element && scrollContainer.value) {
+        const container = scrollContainer.value;
+        const offset = element.offsetLeft - (container.clientWidth / 2) + (element.clientWidth / 2);
+
+        container.scrollTo({
+            left: offset,
+            behavior: 'smooth'
+        });
+    }
 };
+
+const isToday = computed(() => {
+    return selectedDate.value.toDateString() === new Date().toDateString();
+});
 
 const selectDate = (date: Date) => {
-  selectedDate.value = date;
-  centerActiveDate(date);
+    selectedDate.value = date;
 };
 
-onMounted(async () => {
-  generateWeek();
-  
-  // Tunggu DOM selesai render
-  await nextTick();
-  
-  // Gunakan sedikit delay agar offsetLeft terbaca dengan benar setelah layouting selesai
-  setTimeout(() => {
-    centerActiveDate(selectedDate.value);
-  }, 100);
+
+watch(selectedDate, async () => {
+    await nextTick();
+    setTimeout(() => {
+        centerActiveDate(selectedDate.value);
+    }, 100);
 });
+
+onMounted(async () => {
+    await nextTick();
+    setTimeout(() => {
+        centerActiveDate(selectedDate.value);
+    }, 100);
+});
+
 </script>
 
 <style scoped>

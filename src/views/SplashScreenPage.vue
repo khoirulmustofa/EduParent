@@ -1,8 +1,19 @@
 <template>
     <ion-page>
         <ion-content :fullscreen="true">
-            <!-- Background Gradient -->
-            <div class="fixed inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 pointer-events-none z-0">
+            <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+                <div
+                    class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-rose-300/40 rounded-full blur-[80px] animate-pulse">
+                </div>
+
+                <div class="absolute top-[10%] right-[-10%] w-80 h-80 bg-blue-300/40 rounded-full blur-[80px]"></div>
+
+                <div class="absolute bottom-[-10%] left-[10%] w-80 h-80 bg-emerald-300/40 rounded-full blur-[80px]">
+                </div>
+
+                <div
+                    class="absolute bottom-[20%] right-[10%] w-64 h-64 bg-fuchsia-300/40 rounded-full blur-[80px] animate-pulse">
+                </div>
             </div>
 
             <!-- Animated Shapes -->
@@ -14,8 +25,7 @@
             <div class="relative z-10 flex flex-col h-full px-8 py-12 justify-center items-center">
                 <!-- Illustration Section -->
                 <div class="flex items-center justify-center w-full relative mb-12">
-                    <img src="https://placehold.co/400x400?text=EduParent"
-                        alt="Splash Illustration"
+                    <img src="https://placehold.co/400x400?text=EduParent" alt="Splash Illustration"
                         class="w-full max-w-[320px] object-contain drop-shadow-2xl animate-float" />
                 </div>
 

@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
         user.value = response.data.data;
 
         localStorage.setItem('auth_token', token.value);
-        return true;
+        return response.data;
       }
     } catch (error) {
       throw error;

@@ -1,10 +1,20 @@
 <template>
     <ion-page>
         <ion-content :fullscreen="true" class="font-sans">
-            <!-- Dynamic Background -->
-            <div class="fixed inset-0 bg-slate-50 z-0"></div>
-            <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-b from-blue-50 to-transparent z-0"></div>
+            <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+                <div
+                    class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-rose-100/40 rounded-full blur-[80px] animate-pulse">
+                </div>
 
+                <div class="absolute top-[10%] right-[-10%] w-80 h-80 bg-blue-100/40 rounded-full blur-[80px]"></div>
+
+                <div class="absolute bottom-[-10%] left-[10%] w-80 h-80 bg-emerald-100/40 rounded-full blur-[80px]">
+                </div>
+
+                <div
+                    class="absolute bottom-[20%] right-[10%] w-64 h-64 bg-fuchsia-100/40 rounded-full blur-[80px] animate-pulse">
+                </div>
+            </div>
             <div class="relative z-10 p-5 pb-24">
                 <!-- Top Header Section -->
                 <div class="flex justify-between items-center mb-8 animate-fade-in">
