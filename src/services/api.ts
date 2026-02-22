@@ -2,7 +2,7 @@ import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api', // Sesuaikan dengan URL Laravel Anda
+    baseURL: import.meta.env.VITE_API_URL, // Sesuaikan dengan URL Laravel Anda
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

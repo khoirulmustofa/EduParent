@@ -1,5 +1,18 @@
 # Assalamu Alaikum
 
+```
+ionic cap add android
+
+ionic build
+
+ionic cap sync
+```
+
+```
+.env
+VITE_API_URL=http://localhost:8000/api
+```
+
 
 ### Run dev server:
 With Web Native

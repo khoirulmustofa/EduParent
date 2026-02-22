@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
-import { checkboxOutline, gridOutline, homeOutline, personCircleOutline } from 'ionicons/icons';
+import { personCircleOutline, homeOutline, gridOutline, checkboxOutline } from 'ionicons/icons';
 </script>
 
 <style scoped>
