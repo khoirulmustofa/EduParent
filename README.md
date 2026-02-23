@@ -6,6 +6,9 @@ ionic cap add android
 ionic build
 
 ionic cap sync
+
+rm -rf node_modules package-lock.json
+npm install
 ```
 
 ```
