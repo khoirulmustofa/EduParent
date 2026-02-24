@@ -14,6 +14,9 @@ npm install
 ```
 .env
 VITE_API_URL=http://localhost:8000/api
+
+.env.production
+VITE_API_URL=https://service.nfbs-bogor.sch.id/api/mobile
 ```
 
 

@@ -12,8 +12,8 @@ interface User {
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null);
-    const token = ref(localStorage.getItem('auth_token') || '');
-    const fcmToken = ref('');
+    const token = ref<string | null>(localStorage.getItem('auth_token'))
+    const fcmToken = ref<string | null>(null);
     const isAuthenticated = computed(() => !!token.value);
 
     const updateFcmToken = async (newToken?: string) => {
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
 
         try {
             // 3. Tambahkan timeout atau retry jika perlu
-            await api.post('/auth/update-fcm-token', {
+            await api.post('/update-fcm-token', {
                 fcm_token: fcmToken.value,
                 platform: 'android' // Tambahan info untuk backend jika perlu
             });
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
     const login = async (credentials: any) => {
         try {
             // 1. Mengirim data (email/password) ke Laravel
-            const response = await api.post('/auth/login', credentials);
+            const response = await api.post('/login', credentials);
 
             // 2. Cek apakah Laravel memberikan lampu hijau (success: true)
             if (response.data.success) {
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('auth', () => {
 
                 // 4. Menyimpan Token ke memori HP (LocalStorage)
                 // Tujuannya: Agar saat aplikasi ditutup dan dibuka lagi, user tidak perlu login ulang.
-                localStorage.setItem('auth_token', token.value);
+                localStorage.setItem('auth_token', token.value ?? '');
 
                 // 5. Sinkronisasi Push Notification
                 // Ini sangat krusial! Kita memberi tahu Laravel: 
@@ -84,12 +84,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     const register = async (userData: any) => {
         try {
-            const response = await api.post('/auth/register', userData);
+            const response = await api.post('/register', userData);
             if (response.data.success) {
                 token.value = response.data.token;
                 user.value = response.data.data;
 
-                localStorage.setItem('auth_token', token.value);
+                localStorage.setItem('auth_token', token.value ?? '');
 
                 // Update FCM Token after registration if exists
                 await updateFcmToken();
@@ -105,7 +105,7 @@ export const useAuthStore = defineStore('auth', () => {
     const fetchUser = async () => {
         if (!token.value) return;
         try {
-            const response = await api.get('/auth/me');
+            const response = await api.get('/me');
             user.value = response.data.data;
         } catch (error) {
             logout();
@@ -114,13 +114,25 @@ export const useAuthStore = defineStore('auth', () => {
 
     const logout = async () => {
         try {
-            if (token.value) await api.post('/auth/logout');
-        } catch (e) {
-            // Ignore error on logout
+            // 1. Hapus FCM Token di Laravel (Opsional, agar user tidak dapat notif lagi)
+            // Pastikan ini dilakukan saat masih memiliki akses (sebelum logout)
+            await api.post('/update-fcm-token', { fcm_token: null });
+
+            // 2. Request Logout ke Server
+            await api.post('/logout');
+
+            console.log('Server session destroyed');
+        } catch (error) {
+            // Jika 401, biarkan saja karena artinya di server memang sudah tidak ada session
+            console.warn('Logout server failed or already unauthorized', error);
         } finally {
-            token.value = '';
+            // 3. APAPUN yang terjadi (sukses/error), bersihkan data di HP
+            token.value = null;
             user.value = null;
             localStorage.removeItem('auth_token');
+            localStorage.removeItem('last_fcm_token');
+
+            // 4. Tendang user ke halaman Login
             router.push('/login');
         }
     };

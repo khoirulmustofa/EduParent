@@ -4,8 +4,8 @@ import axios from 'axios';
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL, // Sesuaikan dengan URL Laravel Anda
     headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'X-Mobile-App': 'NFBS-Mobile-App-Secret-Key-2026', // Harus sama dengan di Laravel
+        'Accept': 'application/json',
     }
 });
 
