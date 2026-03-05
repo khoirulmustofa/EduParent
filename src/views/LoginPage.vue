@@ -111,8 +111,8 @@ import { useRouter } from 'vue-router';
 const authStore = useAuthStore();
 const router = useRouter();
 
-const email = ref('admin@admin.com');
-const password = ref('password');
+const email = ref('khoirulm@smpit-nfbogor.sch.id');
+const password = ref('K1r0l1m4570f4');
 const isLoading = ref(false);
 const showToast = ref(false);
 const toastMessage = ref('');

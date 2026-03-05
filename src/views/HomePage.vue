@@ -23,7 +23,7 @@
                             <div
                                 class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200">
                             </div>
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&q=80"
+                            <img src="https://placehold.co/50x50?text=logo"
                                 alt="Profile"
                                 class="relative w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-sm transition-transform active:scale-90" />
                         </div>
