@@ -39,8 +39,8 @@
                             <ion-icon :icon="cameraOutline" class="text-sm"></ion-icon>
                         </button>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">Livia Vaccaro</div>
-                    <p class="text-gray-500 text-sm font-medium mt-1">livia.vaccaro@design.com</p>
+                    <div class="text-2xl font-bold text-gray-900">{{ authStore.user?.name }}</div>
+                    <p class="text-gray-500 text-sm font-medium mt-1">{{ authStore.user?.email }}</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-8">
