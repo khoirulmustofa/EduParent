@@ -10,7 +10,7 @@ ionic cap sync android
 rm -rf node_modules package-lock.json
 npm install
 ```
-
+## .env
 ```
 .env
 VITE_API_URL=http://localhost:8000/api
