@@ -5,6 +5,8 @@ ionic cap add android
 
 ionic build
 
+ionic cap copy android
+
 ionic cap sync android
 
 rm -rf node_modules package-lock.json
@@ -26,6 +28,8 @@ With Web Native
 ```
 https://www.figma.com/design/MO9YdNRQpZkNu2NOb4CFKy/Task-management---to-do-list-app--Community-?node-id=101-125&t=y7xbpy47MRvna1Ci-0
 ```
+
+\\172.30.42.17\home\nfbs\js\EduParent\android
 
 ```
 <template>
