@@ -127,15 +127,63 @@ export const useAuthStore = defineStore('auth', () => {
             console.warn('Logout server failed or already unauthorized', error);
         } finally {
             // 3. APAPUN yang terjadi (sukses/error), bersihkan data di HP
-            token.value = null;
-            user.value = null;
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('last_fcm_token');
+            _clearLocalData();
+        }
+    };
 
-            // 4. Tendang user ke halaman Login
+    /**
+     * Force logout: Langsung bersihkan data lokal tanpa panggil API.
+     * Digunakan oleh interceptor saat dapat 401, agar tidak infinite loop.
+     */
+    const forceLogout = () => {
+        console.warn('Force logout: Sesi berakhir, redirect ke login');
+        _clearLocalData();
+    };
+
+    /**
+     * Bersihkan semua data autentikasi lokal dan redirect ke login
+     */
+    const _clearLocalData = () => {
+        token.value = null;
+        user.value = null;
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('last_fcm_token');
+
+        // Redirect ke login (hanya jika belum di halaman login)
+        if (router.currentRoute.value.path !== '/login') {
             router.push('/login');
         }
     };
 
-    return { user, token, fcmToken, isAuthenticated, login, register, logout, fetchUser, updateFcmToken };
+    const updateProfile = async (formData: FormData) => {
+        try {
+            const response = await api.post('/profile/update', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            if (response.data.success) {
+                await fetchUser();
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const updatePhoto = async (file: File) => {
+        try {
+            const formData = new FormData();
+            formData.append('photo', file);
+            const response = await api.post('/profile/update-photo', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            if (response.data.success) {
+                await fetchUser();
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    return { user, token, fcmToken, isAuthenticated, login, register, logout, forceLogout, fetchUser, updateFcmToken, updateProfile, updatePhoto };
 });

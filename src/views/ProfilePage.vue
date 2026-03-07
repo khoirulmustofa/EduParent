@@ -1,85 +1,83 @@
 <template>
     <ion-page>
+       <ion-header class="ion-no-border">
+            <ion-toolbar class="bg-white">
+                <ion-title class="font-bold text-lg text-slate-900 ml-5" slot="start">Profile</ion-title>
+                <ion-icon :icon="personOutline" class="text-slate-700 mr-5 text-2xl" slot="end"></ion-icon>
+            </ion-toolbar>
+        </ion-header>
+
         <ion-content :fullscreen="true" class="bg-gray-50 font-sans">
 
             <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
                 <div
                     class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-rose-100/40 rounded-full blur-[80px] animate-pulse">
                 </div>
-
                 <div class="absolute top-[10%] right-[-10%] w-80 h-80 bg-blue-100/40 rounded-full blur-[80px]"></div>
-
                 <div class="absolute bottom-[-10%] left-[10%] w-80 h-80 bg-emerald-100/40 rounded-full blur-[80px]">
                 </div>
-
                 <div
                     class="absolute bottom-[20%] right-[10%] w-64 h-64 bg-fuchsia-100/40 rounded-full blur-[80px] animate-pulse">
                 </div>
             </div>
 
-            <div class="relative z-10 p-5 flex justify-between items-center">
+            <div class="relative z-10  p-5 space-y-5">
 
-                <div class="text-xl font-bold text-gray-800">Profile</div>
-                <button
-                    class="!bg-white/80 !backdrop-blur-md !p-2.5 !rounded-full shadow-sm text-gray-700 !border !border-gray-100 !active:scale-95 !transition-transform">
-                    <ion-icon :icon="settingsOutline" class="text-xl"></ion-icon>
-                </button>
-            </div>
-
-            <div class="relative z-10 px-6 pb-25">
-
-                <div class="flex flex-col items-center mb-8">
-                    <div class="relative mb-4">
-                        <div class="w-28 h-28 rounded-full p-1 bg-white shadow-lg">
-                            <img src="https://placehold.co/80x80?text=profile"
-                                alt="Profile" class="w-full h-full rounded-full object-cover" />
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-2">
+                        <div class="w-28 h-28 rounded-2xl p-1 bg-white shadow-lg">
+                            <img :src="photoPreview || authStore.user?.photo_url || 'https://placehold.co/112x112?text=Foto'"
+                                alt="Foto Profil" class="w-full h-full rounded-2xl object-cover" />
                         </div>
-                        <button
-                            class="absolute bottom-0 right-1 w-9 h-9 bg-[#5F33E1] rounded-full border-[3px] border-white flex items-center justify-center text-white shadow-md active:scale-90 transition-transform">
+                        <button @click="selectPhoto"
+                            class="absolute bottom-0 right-1 w-9 h-9 bg-green-500 !rounded-2xl border-[2px] border-white flex items-center justify-center text-white shadow-md active:scale-90 transition-transform">
                             <ion-icon :icon="cameraOutline" class="text-sm"></ion-icon>
                         </button>
+                        <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="onFileSelected" />
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">{{ authStore.user?.name }}</div>
-                    <p class="text-gray-500 text-sm font-medium mt-1">{{ authStore.user?.email }}</p>
+                    <div class="text-xl font-bold text-gray-900">{{ authStore.user?.name }}</div>
+                    <div class="text-gray-500 text-sm font-medium mt-1">{{ authStore.user?.email }}</div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div
-                        class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-                        <div class="text-[#5F33E1] text-2xl font-bold mb-1">24</div>
-                        <span class="text-xs text-gray-400 font-medium uppercase tracking-wide">Tasks Done</span>
-                    </div>
-                    <div
-                        class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-                        <div class="text-orange-500 text-2xl font-bold mb-1">12</div>
-                        <span class="text-xs text-gray-400 font-medium uppercase tracking-wide">In Progress</span>
+                <!-- Upload Progress -->
+                <div v-if="isUploading" class="mb-6">
+                    <div class="bg-white p-4 rounded-2xl border border-indigo-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-2">
+                            <ion-spinner name="crescent" color="primary" class="w-5 h-5"></ion-spinner>
+                            <span class="text-sm font-semibold text-slate-700">Mengunggah foto...</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div class="bg-[#5F33E1] h-1.5 rounded-full transition-all duration-500 animate-pulse"
+                                style="width: 70%"></div>
+                        </div>
                     </div>
                 </div>
 
+               
                 <div class="space-y-4">
-                    <div class="!text-xl !font-bold !text-gray-900 !ml-1 !pt-2">General</div>
+                    <div class="!text-xl !font-bold !text-gray-900 !ml-1 !pt-2">Umum</div>
 
-                    <button
+                    <button @click="router.push('/profile/edit')"
                         class="w-full bg-white !p-2 !rounded-2xl !shadow-[0_2px_8px_rgba(0,0,0,0.04)] !border !border-gray-100 flex items-center justify-between group active:scale-[0.98] transition-all">
                         <div class="flex items-center gap-4">
                             <div
                                 class="w-10 h-10 rounded-full bg-purple-50 text-[#5F33E1] flex items-center justify-center">
                                 <ion-icon :icon="personOutline" class="text-xl"></ion-icon>
                             </div>
-                            <span class="font-semibold text-gray-700 text-[15px]">Edit Profile</span>
+                            <span class="font-semibold text-gray-700 text-[15px]">Edit Profil</span>
                         </div>
                         <ion-icon :icon="chevronForward"
                             class="text-gray-300 group-hover:text-[#5F33E1] transition-colors"></ion-icon>
                     </button>
 
-                    <button
+                    <button @click="router.push('/profile/notifications')"
                         class="w-full bg-white !p-2 !rounded-2xl !shadow-[0_2px_8px_rgba(0,0,0,0.04)] !border !border-gray-100 flex items-center justify-between group active:scale-[0.98] transition-all">
                         <div class="flex items-center gap-4">
                             <div
                                 class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center">
                                 <ion-icon :icon="notificationsOutline" class="text-xl"></ion-icon>
                             </div>
-                            <span class="font-semibold text-gray-700 text-[15px]">Notifications</span>
+                            <span class="font-semibold text-gray-700 text-[15px]">Notifikasi</span>
                         </div>
                         <ion-icon :icon="chevronForward"
                             class="text-gray-300 group-hover:text-blue-500 transition-colors"></ion-icon>
@@ -92,22 +90,22 @@
                                 class="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center">
                                 <ion-icon :icon="shieldCheckmarkOutline" class="text-xl"></ion-icon>
                             </div>
-                            <span class="font-semibold text-gray-700 text-[15px]">Security</span>
+                            <span class="font-semibold text-gray-700 text-[15px]">Keamanan</span>
                         </div>
                         <ion-icon :icon="chevronForward"
                             class="text-gray-300 group-hover:text-orange-500 transition-colors"></ion-icon>
                     </button>
 
-                    <div class="!text-xl !font-bold !text-gray-900 !ml-1 !pt-2">Preferences</div>
+                    <div class="!text-xl !font-bold !text-gray-900 !ml-1 !pt-2">Preferensi</div>
 
-                    <button
+                    <button @click="router.push('/profile/help')"
                         class="w-full bg-white !p-2 !rounded-2xl !shadow-[0_2px_8px_rgba(0,0,0,0.04)] !border !border-gray-100 flex items-center justify-between group active:scale-[0.98] transition-all">
                         <div class="flex items-center gap-4">
                             <div
                                 class="w-10 h-10 rounded-full bg-pink-50 text-pink-500 flex items-center justify-center">
                                 <ion-icon :icon="helpCircleOutline" class="text-xl"></ion-icon>
                             </div>
-                            <span class="font-semibold text-gray-700 text-[15px]">Help & Support</span>
+                            <span class="font-semibold text-gray-700 text-[15px]">Bantuan & Dukungan</span>
                         </div>
                         <ion-icon :icon="chevronForward"
                             class="text-gray-300 group-hover:text-pink-500 transition-colors"></ion-icon>
@@ -116,19 +114,26 @@
                     <button @click="handleLogoutConfirm"
                         class="w-full bg-red-50 !p-4 !rounded-2xl !border !border-red-100 flex items-center justify-center gap-2 group active:scale-[0.98] transition-all mt-6">
                         <ion-icon :icon="logOutOutline" class="text-red-500 text-xl"></ion-icon>
-                        <span class="font-bold text-red-500 text-[15px]">Log Out</span>
+                        <span class="font-bold text-red-500 text-[15px]">Keluar</span>
                     </button>
 
                 </div>
             </div>
 
+            <ion-toast :is-open="showToast" :message="toastMessage" :duration="3000" position="top" :color="toastColor"
+                @didDismiss="showToast = false"></ion-toast>
         </ion-content>
     </ion-page>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore';
-import { alertController, IonContent, IonIcon, IonPage } from '@ionic/vue';
+import api from '@/services/api';
+import {
+    alertController, IonContent, IonIcon, IonPage, IonSpinner, IonToast, IonHeader,
+    IonToolbar,
+    IonTitle,
+} from '@ionic/vue';
 import {
     cameraOutline,
     chevronForward,
@@ -136,17 +141,68 @@ import {
     logOutOutline,
     notificationsOutline,
     personOutline,
-    settingsOutline,
+    personCircleOutline,
     shieldCheckmarkOutline
 } from 'ionicons/icons';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
 const authStore = useAuthStore();
 
+const fileInput = ref<HTMLInputElement | null>(null);
+const photoPreview = ref<string | null>(null);
+const isUploading = ref(false);
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastColor = ref('success');
 
+const selectPhoto = () => {
+    fileInput.value?.click();
+};
 
+const onFileSelected = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (!file) return;
+
+    // Preview foto langsung
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        photoPreview.value = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+
+    // Upload ke server
+    isUploading.value = true;
+    try {
+        const formData = new FormData();
+        formData.append('photo', file);
+
+        const response = await api.post('/profile/update-photo', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        if (response.data.success) {
+            await authStore.fetchUser();
+            toastMessage.value = 'Foto profil berhasil diperbarui!';
+            toastColor.value = 'success';
+        } else {
+            photoPreview.value = null;
+            toastMessage.value = response.data.message || 'Gagal mengunggah foto';
+            toastColor.value = 'danger';
+        }
+    } catch (error: any) {
+        photoPreview.value = null;
+        toastMessage.value = error.response?.data?.message || 'Koneksi gagal. Coba lagi.';
+        toastColor.value = 'danger';
+    } finally {
+        isUploading.value = false;
+        showToast.value = true;
+        // Reset input agar bisa memilih file yang sama
+        if (fileInput.value) fileInput.value.value = '';
+    }
+};
 
 const handleLogoutConfirm = async () => {
     const alert = await alertController.create({
@@ -156,9 +212,6 @@ const handleLogoutConfirm = async () => {
             {
                 text: 'Batal',
                 role: 'cancel',
-                handler: () => {
-                    console.log('User klik batal');
-                },
             },
             {
                 text: 'Keluar',
@@ -172,16 +225,13 @@ const handleLogoutConfirm = async () => {
     });
 
     await alert.present();
-
-    // Menunggu alert ditutup
-    const { data, role } = await alert.onWillDismiss();
-
-    // Logika setelah alert hilang dari layar
-    if (role === 'confirm') {
-        console.log('Data diterima:', data);
-        // Jalankan fungsi hapus di sini
-    } else {
-        console.log('Alert ditutup tanpa konfirmasi');
-    }
 };
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+ion-page {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+</style>

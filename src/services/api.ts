@@ -1,10 +1,13 @@
 import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios';
 
+// Flag untuk mencegah multiple redirect saat 401
+let isLoggingOut = false;
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL, // Sesuaikan dengan URL Laravel Anda
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
-        'X-Mobile-App': 'NFBS-Mobile-App-Secret-Key-2026', // Harus sama dengan di Laravel
+        'X-Mobile-App': 'NFBS-Mobile-App-Secret-Key-2026',
         'Accept': 'application/json',
     }
 });
@@ -22,9 +25,14 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
     response => response,
     async error => {
-        if (error.response && error.response.status === 401) {
+        if (error.response && error.response.status === 401 && !isLoggingOut) {
+            isLoggingOut = true;
+
             const authStore = useAuthStore();
-            await authStore.logout(); // Hapus token dan redirect
+            // Gunakan forceLogout agar tidak panggil API lagi (mencegah loop)
+            authStore.forceLogout();
+
+            isLoggingOut = false;
         }
         return Promise.reject(error);
     }

@@ -31,16 +31,34 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Attendance/KBMAttendancePage.vue'),
     meta: { requiresAuth: true }
   },
-   {
+  {
     path: '/menu/callendar',
     name: 'Callendar',
     component: () => import('../views/Menu/CallendarPage.vue'),
     meta: { requiresAuth: true }
-  },  
+  },
   {
     path: '/menu/lesson-schedule',
     name: 'LessonSchedule',
     component: () => import('../views/Menu/LessonSchedulePage.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile/edit',
+    name: 'EditProfile',
+    component: () => import('../views/Profile/EditProfilePage.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile/notifications',
+    name: 'Notifications',
+    component: () => import('../views/Profile/NotificationPage.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile/help',
+    name: 'HelpSupport',
+    component: () => import('../views/Profile/HelpSupportPage.vue'),
     meta: { requiresAuth: true }
   },
   {
@@ -91,7 +109,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  
+
   // Cek user data jika punya token tapi state user kosong (misal abis refresh)
   if (authStore.isAuthenticated && !authStore.user) {
     await authStore.fetchUser();

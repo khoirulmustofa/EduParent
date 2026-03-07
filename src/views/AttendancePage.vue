@@ -1,5 +1,14 @@
 <template>
     <ion-page>
+
+        <ion-header class="ion-no-border">
+            <ion-toolbar class="bg-white">
+                <ion-title class="font-bold text-lg text-slate-900 ml-5" slot="start">Absensi</ion-title>
+                <ion-icon :icon="calendarOutline" class="text-slate-700 mr-5 text-xl" slot="end"></ion-icon>
+            </ion-toolbar>
+        </ion-header>
+
+
         <ion-content :fullscreen="true" class="bg-gray-50 font-sans">
 
             <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
@@ -17,19 +26,10 @@
                 </div>
             </div>
 
-            <div class="relative z-10 px-5 py-5 flex justify-between items-center">
+            <div class="relative z-10 px-5 py-2 space-y-2">
 
-                <div class="text-xl font-bold text-gray-800">Attendance</div>
-                <button
-                    class="!bg-white/80 !backdrop-blur-md !p-2.5 !rounded-full shadow-sm text-gray-700 !border !border-gray-100 !active:scale-95 !transition-transform">
-                    <ion-icon :icon="calendarOutline" class="text-xl"></ion-icon>
-                </button>
-            </div>
-
-            <div class="relative z-10 px-5 pb-24">
-
-                <div class="mb-4">
-                    <div class="text-gray-500 text-sm">Choose the type of attendance to record</div>
+                <div class="">
+                    <div class="text-gray-500 text-md">Pilih menu yang ingin diakses</div>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3">
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonIcon, IonPage } from '@ionic/vue';
+import { IonContent, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/vue';
 import {
     basketballOutline,
     calendarNumberOutline,

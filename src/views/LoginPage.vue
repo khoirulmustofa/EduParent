@@ -17,25 +17,24 @@
                 </div>
             </div>
 
-            <div class="relative z-10 flex flex-col min-h-full px-6 py-12 justify-center">
+            <div class="relative z-10 flex flex-col min-h-full px-4 py-4 space-y-4 justify-center">
 
-                <div class="flex flex-col items-center mb-10 animate-fade-in-down">
+                <div class="flex flex-col items-center animate-fade-in-down">
                     <div
                         class="w-24 h-24 bg-white/60 backdrop-blur-2xl rounded-[2rem] flex items-center justify-center mb-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white transform hover:rotate-6 transition-transform duration-500 group">
                         <ion-icon :icon="lockClosed"
                             class="text-4xl text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 to-fuchsia-500 group-hover:scale-110 transition-transform"></ion-icon>
                     </div>
-                    <h1 class="text-3xl font-black text-slate-800 tracking-tight mb-2">Welcome Back</h1>
-                    <p class="text-slate-500 text-sm font-medium">Please sign in to your account</p>
+                    <div class="font-black text-center text-slate-800 tracking-tight mb-2">SIAKAD KM SCHOOL</div>
+                    <div class="text-slate-500 text-sm font-medium">Silahkan masuk ke akun Anda</div>
                 </div>
 
                 <div
-                    class="bg-white/60 backdrop-blur-xl rounded-[32px] p-8 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] animate-fade-in-up">
+                    class="bg-white/60 backdrop-blur-xl rounded-2xl p-4 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] animate-fade-in-up">
                     <div class="space-y-6">
 
                         <div class="space-y-2">
-                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email
-                                Address</label>
+                            <label class="text-[11px] font-bold text-slate-500 ml-1">Email</label>
                             <div class="relative group">
                                 <ion-icon :icon="mailOutline"
                                     class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors text-xl"></ion-icon>
@@ -47,7 +46,7 @@
                         <div class="space-y-2">
                             <div class="flex justify-between items-center ml-1">
                                 <label
-                                    class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
+                                    class="text-[11px] font-bold text-slate-500 ">Password</label>
                             </div>
                             <div class="relative group">
                                 <ion-icon :icon="keyOutline"

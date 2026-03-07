@@ -1,5 +1,94 @@
+<script setup lang="ts">
+import { useAuthStore } from '@/stores/authStore';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { IonContent, IonIcon, IonPage, IonHeader, IonToolbar } from '@ionic/vue';
+import {
+    book,
+    briefcase,
+    fitness,
+    notifications,
+    person,
+    arrowForward
+} from 'ionicons/icons';
+import { onMounted, ref } from 'vue';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+
+// Import required modules
+import { Pagination, Autoplay } from 'swiper/modules';
+
+const modules = [Pagination, Autoplay];
+
+const authStore = useAuthStore();
+
+onMounted(() => {
+    authStore.fetchUser();
+});
+
+const groups = [
+    { name: 'Office Work', count: 12, icon: briefcase, bgColor: 'bg-indigo-50', iconColor: 'text-indigo-600', progress: 75 },
+    { name: 'Personal Growth', count: 8, icon: person, bgColor: 'bg-rose-50', iconColor: 'text-rose-600', progress: 45 },
+    { name: 'Education', count: 15, icon: book, bgColor: 'bg-amber-50', iconColor: 'text-amber-600', progress: 90 },
+    { name: 'Health & Fitness', count: 4, icon: fitness, bgColor: 'bg-emerald-50', iconColor: 'text-emerald-600', progress: 30 }
+];
+
+// Data Slider
+const slides = ref([
+    {
+        image: 'https://placehold.co/500x500?text=Slider+1',
+        link: 'https://www.instagram.com/nfbsbogorofficial/'
+    },
+    {
+        image: 'https://placehold.co/500x500?text=Slider+2',
+        link: 'https://www.instagram.com/nfbsbogorofficial/'
+    },
+    {
+        image: 'https://placehold.co/500x500?text=Slider+3',
+        link: 'https://www.instagram.com/nfbsbogorofficial/'
+    }
+]);
+
+// Fungsi navigasi
+const openInstagram = (url: string) => {
+    window.open(url, '_blank');
+};
+</script>
+
+
 <template>
     <ion-page>
+        <ion-header class="ion-no-border">
+            <ion-toolbar class="bg-white px-5 !py-2">
+                <div class="relative group" slot="start">
+                    <div class="flex items-center gap-2">
+                        <div class="relative group">
+
+                            <img src="https://placehold.co/50x50?text=logo" alt="Profile"
+                                class="relative w-14 h-14 rounded-2xl object-cover border-2 border-white transition-transform active:scale-90" />
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-500 font-bold">Assalamu Alaikum,
+                            </div>
+                            <div class=" font-black text-slate-900 tracking-tight">
+                                {{ authStore.user?.name || 'Nama user' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group" slot="end">
+                    <button
+                        class="relative bg-white p-3 rounded-2xl shadow-sm border border-slate-100 active:scale-90 transition-all">
+                        <ion-icon :icon="notifications" class="text-xl text-slate-700"></ion-icon>
+                        <span
+                            class="absolute top-3 right-3 w-2.5 h-2.5 bg-green-600 rounded-full border-2 border-white animate-pulse"></span>
+                    </button>
+                </div>
+            </ion-toolbar>
+        </ion-header>
+
         <ion-content :fullscreen="true" class="font-sans">
             <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
                 <div
@@ -16,65 +105,24 @@
                 </div>
             </div>
             <div class="relative z-10 pb-24 space-y-2">
-                <!-- Top Header Section -->
-                <div class="flex px-4 py-2 justify-between items-center animate-fade-in">
-                    <div class="flex items-center gap-2">
-                        <div class="relative group">
-                            <div
-                                class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200">
-                            </div>
-                            <img src="https://placehold.co/50x50?text=logo" alt="Profile"
-                                class="relative w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-sm transition-transform active:scale-90" />
-                        </div>
-                        <div>
-                            <div class="text-[11px] text-slate-500 font-bold">Assalamu Alaikum,
-                            </div>
-                            <div class=" font-black text-slate-900 tracking-tight">
-                                {{ authStore.user?.name || 'Nama user' }}
-                            </div>
-                        </div>
-                    </div>
-                    <button
-                        class="relative bg-white p-3 rounded-2xl shadow-sm border border-slate-100 active:scale-90 transition-all">
-                        <ion-icon :icon="notifications" class="text-xl text-slate-700"></ion-icon>
-                        <span
-                            class="absolute top-3 right-3 w-2.5 h-2.5 bg-green-600 rounded-full border-2 border-white animate-pulse"></span>
-                    </button>
-                </div>
 
                 <!-- Main Progress Card -->
                 <div>
                     <swiper :modules="modules" :pagination="{ clickable: true }" :autoplay="{ delay: 3000 }"
-                        class="shadow-2xl shadow-indigo-200/50 overflow-hidden">
-                        <swiper-slide>
+                        class="shadow-2xl shadow-indigo-200/50 overflow-hidden rounded-b-[3rem]">
+                        <swiper-slide v-for="(slide, index) in slides" :key="index">
                             <div class="relative h-60 w-full">
-                                <img src="https://placehold.co/500x500?text=Slider+1"
-                                    class="w-full h-full object-cover" />
-                                <div
-                                    class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/60 to-transparent w-full">
-                                    <h2 class="text-white text-xl font-bold">Your daily goal is almost done!</h2>
-                                </div>
-                            </div>
-                        </swiper-slide>
+                                <img :src="slide.image" class="w-full h-full object-cover"
+                                    :alt="'Slider ' + (index + 1)" />
 
-                        <swiper-slide>
-                            <div class="relative h-60 w-full">
-                                <img src="https://placehold.co/500x500?text=Slider+2"
-                                    class="w-full h-full object-cover" />
                                 <div
-                                    class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/60 to-transparent w-full">
-                                    <h2 class="text-white text-xl font-bold">Check your progress</h2>
-                                </div>
-                            </div>
-                        </swiper-slide>
+                                    class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/80 to-transparent w-full flex justify-center items-center">
+                                    <button @click="openInstagram(slide.link)"
+                                        class="flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-green-700 text-white font-bold !rounded-2xl !px-6 h-12 shadow-lg active:scale-95 transition-all duration-200">
+                                        <span class="text-sm tracking-wide">Selengkapnya</span>
 
-                        <swiper-slide>
-                            <div class="relative h-60 w-full">
-                                <img src="https://placehold.co/500x500?text=Slider+3"
-                                    class="w-full h-full object-cover" />
-                                <div
-                                    class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/60 to-transparent w-full">
-                                    <h2 class="text-white text-xl font-bold">New Tasks Available</h2>
+                                        <ion-icon :icon="arrowForward" class="text-xl"></ion-icon>
+                                    </button>
                                 </div>
                             </div>
                         </swiper-slide>
@@ -155,42 +203,6 @@
     </ion-page>
 </template>
 
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/authStore';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { IonContent, IonIcon, IonPage, } from '@ionic/vue';
-import {
-    book,
-    briefcase,
-    fitness,
-    notifications,
-    person
-} from 'ionicons/icons';
-import { onMounted } from 'vue';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
-
-// Import required modules
-import { Pagination, Autoplay } from 'swiper/modules';
-
-const modules = [Pagination, Autoplay];
-
-const authStore = useAuthStore();
-
-onMounted(() => {
-    authStore.fetchUser();
-});
-
-const groups = [
-    { name: 'Office Work', count: 12, icon: briefcase, bgColor: 'bg-indigo-50', iconColor: 'text-indigo-600', progress: 75 },
-    { name: 'Personal Growth', count: 8, icon: person, bgColor: 'bg-rose-50', iconColor: 'text-rose-600', progress: 45 },
-    { name: 'Education', count: 15, icon: book, bgColor: 'bg-amber-50', iconColor: 'text-amber-600', progress: 90 },
-    { name: 'Health & Fitness', count: 4, icon: fitness, bgColor: 'bg-emerald-50', iconColor: 'text-emerald-600', progress: 30 }
-];
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
