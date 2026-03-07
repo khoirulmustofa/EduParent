@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../components/TabsPage.vue';
 import { useAuthStore } from '@/stores/authStore';
+import TabsQuran from '@/components/TabsQuran.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -61,6 +62,41 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Profile/HelpSupportPage.vue'),
     meta: { requiresAuth: true }
   },
+
+  // =========== AL QURAN ===============
+
+  {
+    path: '/quran/surah/:nomor',
+    name: 'DetailSurahPage',
+    component: () => import('../views/Quran/DetailSurahPage.vue'),
+    meta: { requiresAuth: true }
+  },
+
+   {
+    path: '/',
+    component: TabsQuran,
+    children: [
+      {
+        path: '',
+        redirect: '/quran/list',
+      },
+      {
+        path: '/quran/list',
+        name: 'ListSurahPage',
+        component: () => import('../views/Quran/ListSurahPage.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/quran/bookmark',
+        name: 'BookmarkPage',
+        component: () => import('../views/Quran/BookmarkPage.vue'),
+        meta: { requiresAuth: true }
+      },
+     
+    ],
+  },
+
+
   {
     path: '/',
     component: TabsPage,
